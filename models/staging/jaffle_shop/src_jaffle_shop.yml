@@ -1,0 +1,31 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    database: dbt-tutorial
+    schema: jaffle_shop
+    tables:
+
+        - name: customers
+          description: customers data from public dbt tutorial db
+          columns:
+
+            - name: id
+              description: primary key for customers
+              tests: 
+                - unique
+                - not_null
+
+        - name: orders
+          description: orders data from public dbt tutorial db
+          loaded_at_field: _etl_loaded_at
+          freshness:
+            warn_after: {count: 12, period: hour}
+            error_after: {count: 24, period: hour}
+          columns:
+          
+            - name: id
+              description: primary key for orders
+              tests: 
+                - unique
+                - not_null
